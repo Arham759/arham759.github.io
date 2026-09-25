@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEAM — Everyday clothes, well made</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pine: #232922;
+    --oat: #F1EDE2;
+    --card: #FBF9F3;
+    --line: #D9D2C0;
+    --denim: #3F5C76;
+    --denim-deep: #2C4356;
+    --rust: #A65A34;
+    --muted: #6B7268;
+    --gold: #C7962C;
+    --bg: var(--oat);
+    --text: var(--pine);
+    --card-bg: var(--card);
+    --border: var(--line);
+    --accent: var(--denim);
+    --accent-deep: var(--denim-deep);
+    --sub: var(--muted);
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1D17;
+      --text: #EDE9DD;
+      --card-bg: #21251C;
+      --border: #3A3F33;
+      --accent: #7FA0BC;
+      --accent-deep: #A8C2D6;
+      --sub: #9AA192;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1D17;
+    --text: #EDE9DD;
+    --card-bg: #21251C;
+    --border: #3A3F33;
+    --accent: #7FA0BC;
+    --accent-deep: #A8C2D6;
+    --sub: #9AA192;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 500; margin: 0; }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+  img, svg { max-width: 100%; display: block; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 1.5rem; }
+  .section-head p { margin: 4px 0 0; color: var(--sub); font-size: 0.92rem; }
+
+  /* Header */
+  header.site { background: var(--pine); color: var(--oat); }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; max-width: 1180px; margin: 0 auto; gap: 18px; flex-wrap: wrap;
+  }
+  .logo { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 600; flex-shrink: 0; }
+  nav.main { display: flex; gap: 26px; flex-wrap: wrap; }
+  nav.main a {
+    text-decoration: none; font-size: 0.95rem; color: var(--oat); opacity: 0.85;
+    border-bottom: 1px solid transparent; padding-bottom: 2px;
+  }
+  nav.main a:hover { opacity: 1; border-bottom-color: currentColor; }
+
+  .search-box { display: flex; align-items: center; gap: 8px; background: rgba(241,237,226,0.1); border: 1px solid rgba(241,237,226,0.25); border-radius: 100px; padding: 7px 14px; flex: 1; max-width: 240px; min-width: 140px; }
+  .search-box input { background: none; border: none; outline: none; color: var(--oat); font-size: 0.88rem; width: 100%; }
+  .search-box input::placeholder { color: rgba(241,237,226,0.55); }
+  .search-box svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.7; }
+
+  .head-actions { display: flex; align-items: center; gap: 10px; }
+  .icon-btn {
+    background: transparent; border: 1px solid rgba(241,237,226,0.35); color: var(--oat);
+    padding: 8px 12px; border-radius: 3px; font-size: 0.9rem; display: flex; align-items: center; gap: 7px;
+  }
+  .icon-btn:hover { border-color: rgba(241,237,226,0.7); }
+  .count-badge {
+    background: var(--rust); color: #fff; border-radius: 50%; width: 19px; height: 19px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 0.68rem;
+  }
+
+  /* Ad slots */
+  .ad-slot {
+    border: 1px dashed var(--border); background: color-mix(in srgb, var(--card-bg) 60%, transparent);
+    border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 18px; color: var(--sub); gap: 6px;
+  }
+  .ad-label { font-size: 0.68rem; letter-spacing: 0.02em; color: var(--sub); opacity: 0.75; }
+  .ad-title { font-size: 0.95rem; color: var(--text); }
+  .ad-sub { font-size: 0.8rem; color: var(--sub); }
+  .ad-banner { min-height: 90px; margin: 18px auto; max-width: 1180px; }
+  .ad-banner .ad-inner { display: flex; align-items: center; gap: 16px; justify-content: center; }
+  .ad-glyph { width: 36px; height: 36px; border-radius: 4px; background: var(--accent); opacity: 0.35; flex-shrink: 0; }
+
+  /* Hero */
+  .hero { position: relative; color: var(--oat); padding: 74px 0 64px; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(100deg, rgba(20,23,17,0.88) 30%, rgba(20,23,17,0.35) 75%), url('https://images.unsplash.com/photo-1735093661171-22af5a2ff4c6?auto=format&fit=crop&w=1600&q=70');
+    background-size: cover; background-position: center 30%;
+    z-index: 0;
+  }
+  .hero .wrap { position: relative; z-index: 1; }
+  .hero h1 { font-size: clamp(2.1rem, 4vw, 3.2rem); line-height: 1.08; max-width: 15ch; }
+  .hero p.lede { margin-top: 18px; max-width: 42ch; color: rgba(241,237,226,0.85); font-size: 1.05rem; }
+  .hero-cta { margin-top: 26px; display: inline-block; background: var(--oat); color: var(--pine); padding: 12px 22px; border-radius: 3px; text-decoration: none; font-size: 0.95rem; border: none; }
+  .hero-cta:hover { background: #fff; }
+  .trust-bar { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 30px; font-size: 0.85rem; color: rgba(241,237,226,0.8); }
+  .trust-bar span { display: flex; align-items: center; gap: 7px; }
+  .trust-bar .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  /* Countdown / urgency banner */
+  .deal-banner {
+    background: var(--rust); color: #fff; padding: 12px 0;
+  }
+  .deal-banner .wrap { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; font-size: 0.9rem; text-align: center; }
+  .deal-banner .clock { display: flex; gap: 6px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .deal-banner .clock span { background: rgba(255,255,255,0.18); padding: 3px 8px; border-radius: 3px; min-width: 2.4em; text-align: center; }
+
+  /* Category chips */
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; padding: 32px 0 8px; }
+  .chip { border: 1px solid var(--border); background: transparent; color: var(--text); padding: 8px 16px; border-radius: 100px; font-size: 0.88rem; }
+  .chip.active { background: var(--accent); color: var(--oat); border-color: var(--accent); }
+
+  /* Shop layout */
+  .shop-layout { display: grid; grid-template-columns: 1fr 260px; gap: 32px; padding: 24px 0 60px; align-items: start; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .sidebar { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .sidebar .ad-slot { min-height: 230px; }
+
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; display: flex; flex-direction: column; }
+  .card .art { position: relative; aspect-ratio: 4/5; overflow: hidden; background: color-mix(in srgb, var(--card-bg) 92%, var(--pine) 8%); }
+  .card .art img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .card:hover .art img { transform: scale(1.05); }
+  .card .info { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .card .cat { font-size: 0.75rem; color: var(--sub); }
+  .card .name { font-size: 1rem; font-family: 'Fraunces', serif; font-weight: 500; }
+  .stars { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--sub); }
+  .stars .s { color: var(--gold); letter-spacing: 1px; }
+  .card .row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .card .price { font-size: 0.95rem; }
+  .card .price .was { text-decoration: line-through; color: var(--sub); font-size: 0.78rem; margin-right: 6px; }
+  .add-btn { border: 1px solid var(--accent); background: transparent; color: var(--accent-deep); padding: 6px 12px; border-radius: 3px; font-size: 0.82rem; }
+  .add-btn:hover { background: var(--accent); color: var(--oat); }
+  .tag { position: absolute; top: 10px; left: 10px; font-size: 0.68rem; background: var(--rust); color: #fff; padding: 3px 8px; border-radius: 100px; z-index: 2; }
+  .wish-btn {
+    position: absolute; top: 8px; right: 8px; z-index: 2;
+    width: 30px; height: 30px; border-radius: 50%; border: none;
+    background: rgba(20,20,16,0.35); backdrop-filter: blur(2px);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+  .wish-btn svg { width: 15px; height: 15px; }
+  .wish-btn.active { color: var(--rust); }
+  .wish-btn.active svg { fill: currentColor; }
+
+  .infeed-ad { grid-column: span 1; min-height: 100%; }
+
+  /* Testimonials */
+  .testimonials { padding: 20px 0 56px; }
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .test-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .test-card .stars { font-size: 0.85rem; }
+  .test-card p { font-size: 0.92rem; margin: 0; }
+  .test-card .who { font-size: 0.82rem; color: var(--sub); }
+
+  /* Trending strip */
+  .trending { padding: 0 0 56px; }
+  .trend-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 6px; }
+  .trend-card { flex: 0 0 160px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+  .trend-card .art { aspect-ratio: 4/5; }
+  .trend-card .art img { width: 100%; height: 100%; object-fit: cover; }
+  .trend-card .info { padding: 10px 12px; }
+  .trend-card .name { font-size: 0.85rem; }
+  .trend-card .price { font-size: 0.82rem; color: var(--sub); margin-top: 2px; }
+
+  /* Newsletter */
+  .newsletter { background: var(--pine); color: var(--oat); padding: 52px 0; }
+  .newsletter .wrap { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+  .newsletter h2 { font-size: 1.4rem; max-width: 20ch; }
+  .newsletter p { color: rgba(241,237,226,0.75); margin-top: 8px; font-size: 0.9rem; }
+  .news-form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .news-form input { padding: 11px 14px; border-radius: 3px; border: 1px solid rgba(241,237,226,0.3); background: rgba(241,237,226,0.08); color: var(--oat); font-size: 0.9rem; min-width: 220px; }
+  .news-form input::placeholder { color: rgba(241,237,226,0.5); }
+  .news-form button { background: var(--oat); color: var(--pine); border: none; padding: 11px 20px; border-radius: 3px; font-size: 0.9rem; }
+  .news-form button:hover { background: #fff; }
+
+  /* Footer */
+  footer.site { border-top: 1px solid var(--border); padding: 40px 0 32px; }
+  .foot-grid { display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr; gap: 28px; margin-bottom: 28px; }
+  .foot-grid h3 { font-size: 0.95rem; margin-bottom: 12px; }
+  .foot-grid a { display: block; font-size: 0.88rem; color: var(--sub); text-decoration: none; margin-bottom: 8px; }
+  .foot-grid a:hover { color: var(--text); }
+  .foot-note { font-size: 0.8rem; color: var(--sub); border-top: 1px solid var(--border); padding-top: 18px; }
+
+  /* Cart drawer */
+  .overlay { position: fixed; inset: 0; background: rgba(20,20,16,0.4); opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 40; }
+  .overlay.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; height: 100%; width: min(380px, 90vw);
+    background: var(--bg); color: var(--text); transform: translateX(100%); transition: transform 0.25s ease;
+    z-index: 41; display: flex; flex-direction: column; box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border); }
+  .drawer-head h2 { font-size: 1.2rem; }
+  .drawer-close { background: none; border: none; font-size: 1.3rem; color: var(--text); }
+  .drawer-items { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .drawer-item { display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  .drawer-item .art-mini { width: 52px; height: 52px; background: var(--card-bg); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+  .drawer-item .art-mini img { width: 100%; height: 100%; object-fit: cover; }
+  .drawer-item .meta { flex: 1; }
+  .drawer-item .meta .n { font-size: 0.9rem; }
+  .drawer-item .meta .p { font-size: 0.82rem; color: var(--sub); }
+  .drawer-item button.remove { background: none; border: none; color: var(--sub); font-size: 0.8rem; text-decoration: underline; }
+  .drawer-foot { padding: 20px; border-top: 1px solid var(--border); }
+  .drawer-foot .total { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 1.05rem; }
+  .checkout-btn { width: 100%; background: var(--pine); color: var(--oat); border: none; padding: 12px; border-radius: 3px; font-size: 0.95rem; }
+  .empty-cart { color: var(--sub); font-size: 0.9rem; padding: 40px 0; text-align: center; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--pine); color: var(--oat); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem;
+    opacity: 0; transition: all 0.25s ease; pointer-events: none; z-index: 50; max-width: 90vw; text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 900px) {
+    .shop-layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; flex-direction: row; overflow-x: auto; }
+    .sidebar .ad-slot { min-width: 220px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    nav.main { display: none; }
+    .search-box { order: 3; max-width: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .test-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .grid { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="topbar">
+    <div class="logo">SEAM</div>
+    <nav class="main">
+      <a href="#shop">Shop</a>
+      <a href="#new">New</a>
+      <a href="#sale">Sale</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search products...">
+    </div>
+    <div class="head-actions">
+      <button class="icon-btn" id="wishBtn">♡ <span class="count-badge" id="wishCount">0</span></button>
+      <button class="icon-btn" id="cartBtn">Bag <span class="count-badge" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Clothes built around how you actually move.</h1>
+    <p class="lede">Heavyweight cotton, real denim, cuts that hold their shape after the twentieth wash. No seasonal gimmicks — just the pieces you'll reach for every week.</p>
+    <a class="hero-cta" href="#shop">Browse the collection</a>
+    <div class="trust-bar">
+      <span><span class="dot"></span>Free delivery over Rs 5,000</span>
+      <span><span class="dot"></span>7-day easy exchange</span>
+      <span><span class="dot"></span>Cash on delivery available</span>
+    </div>
+  </div>
+</section>
+
+<div class="deal-banner">
+  <div class="wrap">
+    <span>End-of-season sale ends in</span>
+    <div class="clock" id="countdown">
+      <span id="cd-h">00</span><span id="cd-m">00</span><span id="cd-s">00</span>
+    </div>
+  </div>
+</div>
+
+<!-- Ad: top banner -->
+<div class="wrap">
+  <div class="ad-slot ad-banner">
+    <div class="ad-inner">
+      <div class="ad-glyph"></div>
+      <div>
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-title">Cloudline — travel insurance for weekend trips</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="shop">
+  <div class="chips">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="tops">Tops</button>
+    <button class="chip" data-filter="outerwear">Outerwear</button>
+    <button class="chip" data-filter="bottoms">Bottoms</button>
+    <button class="chip" data-filter="dresses">Dresses</button>
+    <button class="chip" data-filter="traditional">Traditional</button>
+  </div>
+
+  <div class="shop-layout">
+    <div class="grid" id="grid"></div>
+
+    <aside class="sidebar">
+      <div class="ad-slot">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-glyph" style="width:60px;height:60px;margin:8px 0;"></div>
+        <div class="ad-title">TrailForm Boots</div>
+        <div class="ad-sub">Resoleable, weatherproof, made to last a decade.</div>
+      </div>
+      <div class="ad-slot">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-glyph" style="width:60px;height:60px;margin:8px 0;"></div>
+        <div class="ad-title">Nimbus Coffee</div>
+        <div class="ad-sub">A fresh bag, delivered every two weeks.</div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- Ad: mid banner -->
+<div class="wrap">
+  <div class="ad-slot ad-banner">
+    <div class="ad-inner">
+      <div class="ad-glyph"></div>
+      <div>
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-title">Homebase — furniture for small spaces</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="testimonials wrap">
+  <div class="section-head">
+    <div>
+      <h2>Worn and washed, by real customers</h2>
+      <p>What people are saying after a few months in their SEAM basics.</p>
+    </div>
+  </div>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="stars"><span class="s">★★★★★</span></div>
+      <p>"The trucker jacket has been through two winters and still looks new. Stitching hasn't budged."</p>
+      <div class="who">Bilal R., Lahore</div>
+    </div>
+    <div class="test-card">
+      <div class="stars"><span class="s">★★★★★</span></div>
+      <p>"Ordered the henley in two colours after the first one held up so well through daily wash cycles."</p>
+      <div class="who">Ayesha K., Karachi</div>
+    </div>
+    <div class="test-card">
+      <div class="stars"><span class="s">★★★★☆</span></div>
+      <p>"Denim runs slightly true to size — sizing chart was accurate. Exchange process was painless."</p>
+      <div class="who">Hamza T., Islamabad</div>
+    </div>
+  </div>
+</section>
+
+<section class="trending wrap">
+  <div class="section-head">
+    <div>
+      <h2>Trending this week</h2>
+    </div>
+  </div>
+  <div class="trend-row" id="trendRow"></div>
+</section>
+
+<section class="newsletter">
+  <div class="wrap">
+    <div>
+      <h2>Get 10% off your first order</h2>
+      <p>Restocks, new arrivals, and sale previews — a couple of emails a month, nothing more.</p>
+    </div>
+    <form class="news-form" id="newsForm">
+      <input type="email" required placeholder="you@example.com" id="newsEmail">
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- Ad: footer banner -->
+<div class="wrap">
+  <div class="ad-slot ad-banner">
+    <div class="ad-inner">
+      <div class="ad-glyph"></div>
+      <div>
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-title">Fernway Studio — framed prints for rented apartments</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h3>SEAM</h3>
+        <p style="font-size:0.85rem; color:var(--sub); max-width:32ch;">Everyday clothing, made to be worn hard and repaired, not replaced.</p>
+        <a href="about.html" style="font-size:0.85rem;">About us →</a>
+      </div>
+      <div>
+        <h3>Shop</h3>
+        <a href="#">Tops</a>
+        <a href="#">Outerwear</a>
+        <a href="#">Bottoms</a>
+        <a href="#">Dresses</a>
+        <a href="#">Traditional</a>
+      </div>
+      <div>
+        <h3>Help</h3>
+        <a href="#">Sizing guide</a>
+        <a href="#">Returns</a>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="foot-note">Checkout isn't open yet — join the list above to know when it is.</div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2>Your bag</h2>
+    <button class="drawer-close" id="drawerClose">&times;</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot">
+    <div class="total"><span>Total</span><span id="drawerTotal">Rs 0</span></div>
+    <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const IMG = {
+  tee: "https://images.unsplash.com/photo-1716951984700-64ea15a06f13?auto=format&fit=crop&w=800&q=70",
+  jacket: "https://images.unsplash.com/photo-1575752229768-116115c80c8f?auto=format&fit=crop&w=800&q=70",
+  jeans: "https://images.unsplash.com/photo-1624378440847-4a64ee1a889d?auto=format&fit=crop&w=800&q=70",
+  sweater: "https://images.unsplash.com/photo-1758537698215-af1e35acb911?auto=format&fit=crop&w=800&q=70",
+  dress: "https://images.unsplash.com/photo-1629138389836-28fd729eabe9?auto=format&fit=crop&w=800&q=70",
+  suit1: "https://images.unsplash.com/photo-1673551727871-951292d16bef?auto=format&fit=crop&w=800&q=70",
+  suit2: "https://images.unsplash.com/photo-1639654778340-92bec4756b05?auto=format&fit=crop&w=800&q=70",
+  suit3: "https://images.unsplash.com/photo-1617157458504-d053be085fa5?auto=format&fit=crop&w=800&q=70",
+};
+
+const PRODUCTS = [
+  { id: 1, name: "Boxy Cotton Tee", cat: "tops", img: IMG.tee, price: 10600, was: null, tag: null, rating: 4.6, reviews: 128 },
+  { id: 2, name: "Ribbed Turtleneck", cat: "tops", img: IMG.sweater, price: 14500, was: null, tag: "New", rating: 4.8, reviews: 42 },
+  { id: 3, name: "Merino Henley", cat: "tops", img: IMG.tee, price: 17900, was: null, tag: null, rating: 4.7, reviews: 76 },
+  { id: 4, name: "Selvedge Trucker Jacket", cat: "outerwear", img: IMG.jacket, price: 47000, was: null, tag: null, rating: 4.9, reviews: 61 },
+  { id: 5, name: "Cropped Chore Coat", cat: "outerwear", img: IMG.jacket, price: 39800, was: 49800, tag: "Sale", rating: 4.5, reviews: 33 },
+  { id: 6, name: "Utility Vest", cat: "outerwear", img: IMG.jacket, price: 26900, was: null, tag: "New", rating: 4.4, reviews: 19 },
+  { id: 7, name: "Wide-Leg Canvas Pant", cat: "bottoms", img: IMG.jeans, price: 24600, was: null, tag: null, rating: 4.6, reviews: 54 },
+  { id: 8, name: "Straight Denim", cat: "bottoms", img: IMG.jeans, price: 27400, was: null, tag: null, rating: 4.7, reviews: 210 },
+  { id: 9, name: "Linen Shorts", cat: "bottoms", img: IMG.jeans, price: 15100, was: 19000, tag: "Sale", rating: 4.3, reviews: 27 },
+  { id: 10, name: "Slip Dress", cat: "dresses", img: IMG.dress, price: 21800, was: null, tag: null, rating: 4.6, reviews: 38 },
+  { id: 11, name: "Denim Shirt Dress", cat: "dresses", img: IMG.dress, price: 25800, was: null, tag: "New", rating: 4.5, reviews: 22 },
+  { id: 12, name: "Wool Cardigan", cat: "tops", img: IMG.sweater, price: 30800, was: null, tag: null, rating: 4.8, reviews: 65 },
+  { id: 13, name: "Embroidered 3-Piece Suit", cat: "traditional", img: IMG.suit1, price: 8900, was: null, tag: "New", rating: 4.7, reviews: 94 },
+  { id: 14, name: "Lawn Print 3-Piece Suit", cat: "traditional", img: IMG.suit2, price: 4500, was: 5800, tag: "Sale", rating: 4.5, reviews: 152 },
+  { id: 15, name: "Chiffon Party Wear Suit", cat: "traditional", img: IMG.suit3, price: 12900, was: null, tag: null, rating: 4.8, reviews: 47 },
+];
+
+const AD_CARD = { label: "Advertisement", title: "Fernway Studio", sub: "Framed prints for rented apartments — no nail holes." };
+
+let cart = [];
+let wishlist = new Set();
+let activeFilter = 'all';
+let searchTerm = '';
+
+function fmt(n) { return 'Rs ' + n.toLocaleString('en-PK'); }
+
+function starString(rating) {
+  const full = Math.round(rating);
+  return '★'.repeat(full) + '☆'.repeat(5 - full);
+}
+
+function matchesFilters(p) {
+  const inCat = activeFilter === 'all' || p.cat === activeFilter;
+  const inSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm);
+  return inCat && inSearch;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const items = PRODUCTS.filter(matchesFilters);
+  if (items.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1; color:var(--sub); padding:30px 0;">No products match your search.</div>';
+    return;
+  }
+  items.forEach((p, i) => {
+    grid.appendChild(productCard(p));
+    if ((i + 1) % 5 === 0) grid.appendChild(adCard());
+  });
+}
+
+function productCard(p) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  const isWished = wishlist.has(p.id);
+  el.innerHTML = `
+    <div class="art">
+      ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
+      <button class="wish-btn ${isWished ? 'active' : ''}" data-id="${p.id}" aria-label="Save to wishlist">
+        <svg viewBox="0 0 24 24" fill="${isWished ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      </button>
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+    </div>
+    <div class="info">
+      <div class="cat">${p.cat}</div>
+      <div class="name">${p.name}</div>
+      <div class="stars"><span class="s">${starString(p.rating)}</span> ${p.rating} (${p.reviews})</div>
+      <div class="row">
+        <div class="price">${p.was ? `<span class="was">${fmt(p.was)}</span>` : ''}${fmt(p.price)}</div>
+        <button class="add-btn">Add</button>
+      </div>
+    </div>
+  `;
+  el.querySelector('.add-btn').addEventListener('click', () => addToCart(p));
+  el.querySelector('.wish-btn').addEventListener('click', (e) => toggleWish(p, e.currentTarget));
+  return el;
+}
+
+function adCard() {
+  const el = document.createElement('div');
+  el.className = 'ad-slot infeed-ad';
+  el.innerHTML = `
+    <div class="ad-glyph" style="width:44px;height:44px;"></div>
+    <div class="ad-label">${AD_CARD.label}</div>
+    <div class="ad-title">${AD_CARD.title}</div>
+    <div class="ad-sub">${AD_CARD.sub}</div>
+  `;
+  return el;
+}
+
+function renderTrending() {
+  const row = document.getElementById('trendRow');
+  const items = [...PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 6);
+  row.innerHTML = items.map(p => `
+    <div class="trend-card">
+      <div class="art"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="price">${fmt(p.price)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleWish(p, btn) {
+  if (wishlist.has(p.id)) {
+    wishlist.delete(p.id);
+    btn.classList.remove('active');
+    btn.querySelector('svg').setAttribute('fill', 'none');
+    showToast(`Removed ${p.name} from wishlist`);
+  } else {
+    wishlist.add(p.id);
+    btn.classList.add('active');
+    btn.querySelector('svg').setAttribute('fill', 'currentColor');
+    showToast(`Saved ${p.name} to wishlist`);
+  }
+  document.getElementById('wishCount').textContent = wishlist.size;
+}
+
+function addToCart(p) {
+  const existing = cart.find(c => c.id === p.id);
+  if (existing) existing.qty += 1;
+  else cart.push({ ...p, qty: 1 });
+  updateCartUI();
+  showToast(`${p.name} added to your bag`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, c) => s + c.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+
+  const itemsEl = document.getElementById('drawerItems');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="empty-cart">Your bag is empty.</div>';
+  } else {
+    itemsEl.innerHTML = cart.map(c => `
+      <div class="drawer-item">
+        <div class="art-mini"><img src="${c.img}" alt="${c.name}"></div>
+        <div class="meta">
+          <div class="n">${c.name} ${c.qty > 1 ? `× ${c.qty}` : ''}</div>
+          <div class="p">${fmt(c.price * c.qty)}</div>
+        </div>
+        <button class="remove" data-id="${c.id}">Remove</button>
+      </div>
+    `).join('');
+    itemsEl.querySelectorAll('.remove').forEach(btn => {
+      btn.addEventListener('click', () => removeFromCart(Number(btn.dataset.id)));
+    });
+  }
+
+  const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  document.getElementById('drawerTotal').textContent = fmt(total);
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+document.getElementById('cartBtn').addEventListener('click', () => {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+});
+document.getElementById('wishBtn').addEventListener('click', () => {
+  if (wishlist.size === 0) { showToast('Your wishlist is empty — tap the heart on any item'); return; }
+  showToast(`${wishlist.size} item(s) saved in your wishlist`);
+});
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+document.getElementById('overlay').addEventListener('click', closeDrawer);
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+  if (cart.length === 0) { showToast('Your bag is empty'); return; }
+  showToast('Checkout isn\'t open yet — join the list below to know when it is');
+});
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = chip.dataset.filter;
+    renderGrid();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  renderGrid();
+});
+
+document.getElementById('newsForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('newsEmail').value;
+  showToast(`Demo only — no email was actually sent to ${email}`);
+  e.target.reset();
+});
+
+/* Countdown */
+const dealTarget = Date.now() + (29 * 60 * 60 * 1000) + (18 * 60 * 1000);
+function tickCountdown() {
+  const diff = Math.max(0, dealTarget - Date.now());
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-h').textContent = String(h).padStart(2, '0') + 'h';
+  document.getElementById('cd-m').textContent = String(m).padStart(2, '0') + 'm';
+  document.getElementById('cd-s').textContent = String(s).padStart(2, '0') + 's';
+}
+tickCountdown();
+setInterval(tickCountdown, 1000);
+
+renderGrid();
+renderTrending();
+updateCartUI();
+</script>
+
+</body>
+</html>
