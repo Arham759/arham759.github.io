@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — SEAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pine: #232922; --oat: #F1EDE2; --card: #FBF9F3; --line: #D9D2C0;
+    --denim: #3F5C76; --muted: #6B7268;
+    --bg: var(--oat); --text: var(--pine); --card-bg: var(--card);
+    --border: var(--line); --accent: var(--denim); --sub: var(--muted);
+    font-family: 'Work Sans', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1D17; --text: #EDE9DD; --card-bg: #21251C; --border: #3A3F33;
+      --accent: #7FA0BC; --sub: #9AA192;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1D17; --text: #EDE9DD; --card-bg: #21251C; --border: #3A3F33;
+    --accent: #7FA0BC; --sub: #9AA192;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: 'Fraunces', serif; font-weight: 500; margin: 0; }
+  a { color: var(--accent); }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  header.site { background: var(--pine); color: var(--oat); padding: 18px 0; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  .logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; text-decoration: none; color: var(--oat); }
+  .back { font-size: 0.88rem; color: rgba(241,237,226,0.8); text-decoration: none; }
+  main { padding: 56px 0 72px; }
+  h1 { font-size: 2.1rem; margin-bottom: 20px; max-width: 16ch; }
+  .lede { font-size: 1.05rem; color: var(--text); max-width: 52ch; margin-bottom: 12px; }
+  h2 { font-size: 1.2rem; margin-top: 40px; margin-bottom: 12px; }
+  p { font-size: 0.96rem; max-width: 60ch; margin: 0 0 14px; }
+  .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 20px; }
+  .value-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 4px; padding: 18px; }
+  .value-card h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1rem; margin: 0 0 8px; }
+  .value-card p { font-size: 0.85rem; color: var(--sub); margin: 0; }
+  footer.site { border-top: 1px solid var(--border); padding: 28px 0; text-align: center; font-size: 0.8rem; color: var(--sub); margin-top: 48px; }
+  footer.site a { color: var(--sub); margin: 0 8px; }
+  @media (max-width: 640px) { .values { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="topbar">
+    <a class="logo" href="index.html">SEAM</a>
+    <a class="back" href="index.html">← Back to shop</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Clothes built around how you actually move.</h1>
+  <p class="lede">SEAM is a small, independent clothing catalog based in Pakistan. We put together pieces we'd actually want to wear — everyday basics, outerwear that holds up, and traditional wear for the pieces that matter.</p>
+
+  <h2>What we're about</h2>
+  <p>We're not chasing seasonal trends. The idea behind SEAM is simple: heavyweight cotton, real denim, and cuts that still fit right after a year of regular wear. Whether it's a plain tee or an embroidered three-piece suit, we'd rather have fewer, better pieces than a catalog that turns over every month.</p>
+
+  <h2>Where we are</h2>
+  <p>SEAM is run out of Pakistan, and prices on this site are listed in PKR. We're currently in a pre-launch phase — you can browse the full catalog and save items to your wishlist, and ordering is being set up. Check our <a href="contact.html">Contact page</a> for the fastest way to reach us in the meantime.</p>
+
+  <div class="values">
+    <div class="value-card">
+      <h3>Built to last</h3>
+      <p>Fabrics and stitching chosen for repeat wear, not one season.</p>
+    </div>
+    <div class="value-card">
+      <h3>Straightforward pricing</h3>
+      <p>No inflated "was" prices — sale tags mean an actual price drop.</p>
+    </div>
+    <div class="value-card">
+      <h3>Local first</h3>
+      <p>A Pakistan-based catalog, priced and described for a local audience.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <a href="index.html">Shop</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

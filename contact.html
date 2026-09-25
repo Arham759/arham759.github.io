@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — SEAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pine: #232922; --oat: #F1EDE2; --card: #FBF9F3; --line: #D9D2C0;
+    --denim: #3F5C76; --muted: #6B7268;
+    --bg: var(--oat); --text: var(--pine); --card-bg: var(--card);
+    --border: var(--line); --accent: var(--denim); --sub: var(--muted);
+    font-family: 'Work Sans', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1D17; --text: #EDE9DD; --card-bg: #21251C; --border: #3A3F33;
+      --accent: #7FA0BC; --sub: #9AA192;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1D17; --text: #EDE9DD; --card-bg: #21251C; --border: #3A3F33;
+    --accent: #7FA0BC; --sub: #9AA192;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: 'Fraunces', serif; font-weight: 500; margin: 0; }
+  a { color: var(--accent); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  header.site { background: var(--pine); color: var(--oat); padding: 18px 0; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  .logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; text-decoration: none; color: var(--oat); }
+  .back { font-size: 0.88rem; color: rgba(241,237,226,0.8); text-decoration: none; }
+  main { padding: 56px 0 72px; }
+  h1 { font-size: 2rem; margin-bottom: 10px; }
+  .lede { color: var(--sub); font-size: 0.98rem; margin-bottom: 36px; max-width: 46ch; }
+  .contact-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 28px; display: flex; flex-direction: column; gap: 18px;
+  }
+  .contact-row { display: flex; align-items: center; gap: 14px; }
+  .contact-row .icon {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: var(--oat);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .contact-row .icon svg { width: 18px; height: 18px; }
+  .contact-row .label { font-size: 0.78rem; color: var(--sub); }
+  .contact-row .value { font-size: 1rem; }
+  .contact-row .value a { text-decoration: none; }
+  .note-box {
+    border: 1px dashed var(--border); border-radius: 4px;
+    padding: 14px 16px; font-size: 0.85rem; color: var(--sub); margin-top: 24px;
+  }
+  footer.site { border-top: 1px solid var(--border); padding: 28px 0; text-align: center; font-size: 0.8rem; color: var(--sub); margin-top: 40px; }
+  footer.site a { color: var(--sub); margin: 0 8px; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="topbar">
+    <a class="logo" href="index.html">SEAM</a>
+    <a class="back" href="index.html">← Back to shop</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Get in touch</h1>
+  <p class="lede">Questions about a product, sizing, or an order? Reach out and we'll get back to you.</p>
+
+  <div class="contact-card">
+    <div class="contact-row">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+      </div>
+      <div>
+        <div class="label">Email</div>
+        <div class="value"><a href="mailto:you@example.com">you@example.com</a></div>
+      </div>
+    </div>
+    <div class="contact-row">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+      </div>
+      <div>
+        <div class="label">WhatsApp / Phone</div>
+        <div class="value" style="color:var(--sub);">Coming soon — email us for now</div>
+      </div>
+    </div>
+    <div class="contact-row">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div>
+        <div class="label">Based in</div>
+        <div class="value">Pakistan</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    SEAM is currently pre-launch — checkout isn't open yet, so orders are handled directly by email for now. We'll add WhatsApp ordering here soon.
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <a href="index.html">Shop</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+  </div>
+</footer>
+
+</body>
+</html>
